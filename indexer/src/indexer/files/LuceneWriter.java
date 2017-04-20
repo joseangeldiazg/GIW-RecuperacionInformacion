@@ -7,14 +7,11 @@ package indexer.files;
 
 import java.io.File;
 import java.io.IOException;
-import indexer.data.Peliculas;
+import indexer.data.Noticias;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.DoubleField;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -50,10 +47,10 @@ public class LuceneWriter {
             Directory dir = FSDirectory.open(new File(pathToIndex));
             
             //Elegimos un Analyzer . Y especificamos la versión de Lucene que usamos
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_44);
+            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);
         
             //Creamos un IndexWriterConfig 
-            IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
+            IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_43, analyzer);
             //Siempre vamos a sobreescribir el indice que tenemos en el directorio
             iwc.setOpenMode(OpenMode.CREATE);
             
@@ -66,26 +63,17 @@ public class LuceneWriter {
         }            
     }
     
-    public void addPelicula(Peliculas pelicula){
+    public void addPelicula(Noticias noticia){
         Document doc = new Document();
-        doc.add(new StringField("Title", pelicula.getTitle(), Field.Store.YES));
-        doc.add(new IntField("Year", pelicula.getYear(), Field.Store.YES));
-        doc.add(new StringField("Released", pelicula.getReleased(), Field.Store.YES));
-        doc.add(new StringField("Runtime", pelicula.getRuntime(), Field.Store.YES));
-        doc.add(new StringField("Genre", pelicula.getGenre(), Field.Store.YES));
-        doc.add(new StringField("Director", pelicula.getDirector(), Field.Store.YES));
-        doc.add(new StringField("Actors", pelicula.getActors(), Field.Store.YES));
-        doc.add(new TextField("Plot", pelicula.getPlot(), Field.Store.NO));
-        doc.add(new StringField("Language", pelicula.getLanguage(), Field.Store.YES));
-        doc.add(new StringField("Country", pelicula.getCountry(), Field.Store.YES));
-        doc.add(new StringField("Awards", pelicula.getAwards(), Field.Store.YES));
-        doc.add( new DoubleField("ImbdRating",pelicula.getImbdRating(), Field.Store.YES));
+        doc.add(new StringField("Title", noticia.getTitle(), Field.Store.YES));
+        doc.add(new TextField("Plot", noticia.getText(), Field.Store.NO));
+        doc.add(new StringField("Date", noticia.getDate(), Field.Store.YES));
         try {
             indexWriter.addDocument(doc);
         } catch (IOException ex) {
             System.out.println("Ocurrio un problema al añadir el documento: " + ex.getClass() + " :: " + ex.getMessage());
         }
-        System.out.println("Añadida Pelicula: "+pelicula.getTitle() );
+        System.out.println("Añadida noticia: "+noticia.getTitle() );
         
     }    
     public void finish(){

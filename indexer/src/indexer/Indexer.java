@@ -5,14 +5,12 @@
  */
 package indexer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
-import indexer.data.Peliculas;
+import indexer.data.Noticias;
 import indexer.files.FileOpener;
 import indexer.files.LuceneWriter;
-import org.apache.lucene.index.IndexWriter;
 
 /**
  *
@@ -23,6 +21,9 @@ public class Indexer {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
+     * @throws java.text.ParseException
+     * @throws org.apache.lucene.queryparser.classic.ParseException
      */
     public static void main(String[] args) throws IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
 
@@ -41,7 +42,7 @@ public class Indexer {
                 BufferedReader breader = new BufferedReader(fOpener.getFileForReading());
                 String value = null;
                 while((value = breader.readLine()) != null){
-                    Peliculas pelicula  = objectMapper.readValue(value, Peliculas.class);
+                    Noticias pelicula  = objectMapper.readValue(value, Noticias.class);
                     //añadimos cada pelicula al indice
                     luceneWriter.addPelicula(pelicula);
                     
