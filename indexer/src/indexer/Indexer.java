@@ -42,9 +42,9 @@ public class Indexer {
                 BufferedReader breader = new BufferedReader(fOpener.getFileForReading());
                 String value = null;
                 while((value = breader.readLine()) != null){
-                    Noticias pelicula  = objectMapper.readValue(value, Noticias.class);
+                    Noticias noticia  = objectMapper.readValue(value, Noticias.class);
                     //añadimos cada pelicula al indice
-                    luceneWriter.addPelicula(pelicula);
+                    luceneWriter.addNoticia(noticia);
                     
                 }
                 
