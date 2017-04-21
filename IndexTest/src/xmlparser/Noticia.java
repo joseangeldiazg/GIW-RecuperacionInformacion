@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package indexer.data;
+
+package xmlparser;
 
 /**
  *
  * @author joseadiazg
- * 
  */
-public class Noticias {
+
+public class Noticia {
     
     //Como en Json el nombre va en mayusculas es necesario declarar asi el tipo
     private String Title = "";
@@ -19,7 +15,6 @@ public class Noticias {
     
     private String Date  = "";
     
-
     
 
     public String getTitle() {
@@ -50,9 +45,9 @@ public class Noticias {
     @Override
     public String toString() {
         return "<DOC>"
-                    +"\t<DATE>" + Date + "</DATE> \n"
-                    +"\t <TITLE>" + Title +"</TITLE> \n"
-                    +"\t <TEXT>"+Text+"</TEXT>\n"
+                    +"\t<DATE>" + this.Date + "</DATE> \n"
+                    +"\t <TITLE>" + this.Title +"</TITLE> \n"
+                    +"\t <TEXT>"+this.Text+"</TEXT>\n"
               + "</DOC>";
     }     
 }

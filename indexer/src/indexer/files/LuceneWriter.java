@@ -7,7 +7,7 @@ package indexer.files;
 
 import java.io.File;
 import java.io.IOException;
-import indexer.data.Noticias;
+import indexer.data.Noticia;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -63,10 +63,10 @@ public class LuceneWriter {
         }            
     }
     
-    public void addPelicula(Noticias noticia){
+    public void addNoticia(Noticia noticia){
         Document doc = new Document();
         doc.add(new StringField("Title", noticia.getTitle(), Field.Store.YES));
-        doc.add(new TextField("Plot", noticia.getText(), Field.Store.NO));
+        doc.add(new TextField("Text", noticia.getText(), Field.Store.NO));
         doc.add(new StringField("Date", noticia.getDate(), Field.Store.YES));
         try {
             indexWriter.addDocument(doc);
