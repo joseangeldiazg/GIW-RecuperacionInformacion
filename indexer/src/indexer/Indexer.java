@@ -28,31 +28,38 @@ public class Indexer {
 
         //Abrimos el fichero y lo parseamos
         
-        Parser parser = new Parser();
-        parser.parseNews("./sencillo");
-        
-        LuceneWriter luceneWriter = new LuceneWriter("indexDir");
-        
-        try 
-        {   
-            //Vemos si podemos abrir un directorio para escribir
-            if (luceneWriter.openIndex())
-            {
-                for (Noticia noticia : parser.getNoticias()) 
-                {
-                    luceneWriter.addNoticia(noticia);
-                }
-            }   
-            else 
-            {
-                System.out.println("Problema detectado para abrir el directorio para escribir");
-            }
-            
-        } catch (Exception e) {
-            System.out.println("Threw exception " + e.getClass() + " :: " + e.getMessage());
-        } finally {
-            
-            luceneWriter.finish();
+        if (args.length !=3) 
+        {   //si hay más de 1 parámetro
+            System.out.println("Los parámetros no coinciden debe ser: java -jar indexer.java directorio/ficherosxml/ directorioIndex/ directoriopalababrasvacias/fichero.txt ");
         }
-    }  
+        else
+        {
+            Parser parser = new Parser();
+            parser.parseNews(args[0]);
+
+            LuceneWriter luceneWriter = new LuceneWriter(args[1], args[2]);
+            try 
+            {   
+                //Vemos si podemos abrir un directorio para escribir
+                if (luceneWriter.openIndex())
+                {
+                    for (Noticia noticia : parser.getNoticias()) 
+                    {
+                        luceneWriter.addNoticia(noticia);
+                    }
+                }   
+                else 
+                {
+                    System.out.println("Problema detectado para abrir el directorio para escribir");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Threw exception " + e.getClass() + " :: " + e.getMessage());
+            } finally {
+
+                luceneWriter.finish();
+            }
+        }
+        
+    } 
 }

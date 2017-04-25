@@ -35,6 +35,7 @@ import org.apache.lucene.util.Version;
 public class LuceneWriter {
     
     String pathToIndex = "";
+    String pathToStopWords = "";
     IndexWriter indexWriter = null;
 
     private LuceneWriter() 
@@ -42,9 +43,10 @@ public class LuceneWriter {
         
     }
 
-    public LuceneWriter(String pathToIndex) 
+    public LuceneWriter(String pathToIndex, String pathToStopWords) 
     {
         this.pathToIndex = pathToIndex;
+        this.pathToStopWords = pathToStopWords;
     }
     
     public boolean openIndex()
@@ -58,7 +60,7 @@ public class LuceneWriter {
             SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_43, 
                     new CharArraySet(Version.LUCENE_43, 
                     Arrays.asList(StringUtils.split(FileUtils.readFileToString(
-                    new File("./testdata/palabrasvacias.txt"), "UTF-8"))), true));
+                    new File(this.pathToStopWords), "UTF-8"))), true));
         
             //Creamos un IndexWriterConfig 
             IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_43, analyzer);

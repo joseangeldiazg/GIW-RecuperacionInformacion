@@ -9,17 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
@@ -52,7 +45,7 @@ public class Searcher
         TopDocs hits;
         
             
-        QueryParser parser = new QueryParser(Version.LUCENE_43, "TEXT", analyzer);
+        QueryParser parser = new QueryParser(Version.LUCENE_43, "Text", analyzer);
         Query consulta = parser.parse(cadena);
           
         sort = new Sort();

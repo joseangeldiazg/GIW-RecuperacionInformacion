@@ -76,7 +76,7 @@ public class Parser
             nombres.forEach((String nombre) -> {
                 try
                 {	
-                    File inputFile = new File("./sencillo/"+nombre);
+                    File inputFile = new File(directorio+nombre);
 
                     DocumentBuilderFactory dbFactory  = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
