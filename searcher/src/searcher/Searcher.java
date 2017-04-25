@@ -33,7 +33,7 @@ public class Searcher
     
     private static SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_43);
     private static int max = 100000;
-    private static String indexLocation = "/Users/joseadiazg/Desktop/MASTER/GIW-RecuperacionInformacion/indexer/indexDir/";
+    private static String indexLocation = "./indexDir/";
     
     public ArrayList<Noticia> busquedaTexto(String cadena) throws IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
         

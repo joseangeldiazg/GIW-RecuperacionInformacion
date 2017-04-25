@@ -186,14 +186,14 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/./static/logo.png"/>
+              <Image iconType="3" name="/static/logo.png"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="salir">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/./static/salir.png"/>
+              <Image iconType="3" name="/static/salir.png"/>
             </Property>
           </Properties>
           <Events>

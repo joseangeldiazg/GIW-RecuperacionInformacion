@@ -1,0 +1,99 @@
+%---------------------------------------------------
+% Nombre: capitulo1.tex  
+% 
+% Texto del capitulo 1
+%---------------------------------------------------
+
+\chapter{Desarrollo práctico}
+
+La práctica número 3 de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recuperación de información basado en Lucene. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista. 
+
+
+\begin{enumerate}
+\item Conocer las partes principales que tiene un sistema de recuperación de información y qué funcionalidad tiene cada una.
+\item Implementar un sistema de recuperación de información.
+\item Emplear la biblioteca Lucene para facilitar dicha implementación.
+\end{enumerate}
+
+\section{Partes del sistema}
+
+En el sistema de recuperación de información tendremos dos partes diferenciadas en dos programas. Por un lado el programa indexador \textbf{indexer.java} que recibirá la colección de documentos y creará el indice. La segunda parte del sistema, la compone el programa de búsqueda \textbf{searcher.java} que leerá el indice creado por el anterior documento y nos ofrecerá los resultados. 
+
+
+\section{Requisitos del sistema}
+
+En esta sección se realiza un pequeño análisis de requisitos funcionales y no funcionales que el sistema deberá cumplir.
+
+\subsection{Requisitos Funcionales}
+
+\begin{itemize}
+
+\item \textbf{RF1}: El sistema permitirá la realización de búsquedas por texto de las noticias.
+
+\item \textbf{RF2}: El sistema permitirá noticias películas por rango de fechas.
+\item \textbf{RF3}: Los resultados se mostraran en una caja de texto con un formato correcto para que el usuario final pueda entenderlos perfectamente.
+\item \textbf{RF4}: La caja de texto pasará a verde cuando la consulta ofrezca resultados. 
+\item \textbf{RF5}: Se podrá abortar la aplicación por medio de un botón salir.
+
+\end{itemize}
+
+\subsection{Requisitos No Funcionales}
+
+\begin{itemize}
+
+\item \textbf{RNF1}: La aplicación de indexación deberá llevar a cabo la indexación en un tiempo aceptable..
+
+\item \textbf{RNF2}: La aplicación de indexación creara el indice en un directorio relativo dentro de su misma ubicación para permitir así a la aplicación de búsqueda obtener acceso a esta sin problemas..
+
+\end{itemize}
+
+\section{Implementación}
+
+\subsection{indexer}
+
+\subsection{searcher}
+
+
+\section{Manual de uso}
+\label{manual}
+
+En esta sección de la memoria veremos como ejecutar y probar el sistema. 
+
+\subsection{Indexar}
+
+El ejecutable indexar recibe tres parámetros:
+
+\begin{enumerate}
+\item Directorio con la colección de documentos.
+\item Directorio de creación del indice.
+\item Directorio de las palabras vacías.
+\end{enumerate}
+
+En nuestro caso, deberemos ejecutar en terminal el siguiente comando:
+
+\begin{lstlisting}
+	java -jar index.jar testdata/ ../searcher/indexDir testdata/palabrasvacias.txt
+\end{lstlisting}
+
+\subsection{Buscar}
+
+Una vez indexada la colección, mediante terminal accederemos al directorio searcher y ejecutaremos el comando:
+
+\begin{lstlisting}
+	java -jar searcher.jar 
+\end{lstlisting}
+
+Tras esto podremos ver la interfaz de búsqueda que podemos ver en la  imagen \ref{entrada}:
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.5]{./Capitulo1/Imagenes/interfaz.png}
+		\caption{Interfaz del sistema de búsqueda.}
+	\label{entrada}
+\end{figure}
+
+\section{Conclusiones}
+Tras la realización de la practica hemos podido constatar de la potencia de Lucene para la realización de aplicaciones de diverso tipo. También es destacable la facilidad de uso al menos de las nociones básicas y la cantidad de documentación que podemos obtener de la comunidad en internet.
+
+\clearpage
+%---------------------------------------------------
