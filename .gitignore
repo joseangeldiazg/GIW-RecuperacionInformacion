@@ -19,3 +19,4 @@ hs_err_pid*
 /searcher/nbproject/private/
 /searcher/build/
 /indexer/indexDir/
+/searcher/dist/

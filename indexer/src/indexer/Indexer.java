@@ -29,7 +29,7 @@ public class Indexer {
         //Abrimos el fichero y lo parseamos
         
         Parser parser = new Parser();
-        parser.parseNews("./testdata/");
+        parser.parseNews("./sencillo");
         
         LuceneWriter luceneWriter = new LuceneWriter("indexDir");
         
