@@ -14,3 +14,5 @@ hs_err_pid*
 /IndexTest/nbproject/private/
 /IndexTest/build/
 /IndexTest/dist/
+/indexer/build/
+/indexer/dist/

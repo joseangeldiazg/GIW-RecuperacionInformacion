@@ -28,7 +28,6 @@ public class Parser
     
     private static  ArrayList<Noticia> noticias;
     
-    
     /**
      * 
      * Constructor
@@ -37,7 +36,7 @@ public class Parser
     
     public Parser()
     {
-        this.noticias= new ArrayList<Noticia>();
+        Parser.noticias= new ArrayList<Noticia>();
     }
     
     /**
@@ -47,54 +46,83 @@ public class Parser
     
     public ArrayList<Noticia> getNoticias()
     {
-        return this.noticias;
+        return Parser.noticias;
     }
     
     /**
     * Método para parsear noticias y cargarlas en la clase.
     * @param directorio String con el directorio
-    * @return Array de peliculas
     */
     
     public void parseNews(String directorio)
     {
-        try {	
-         File inputFile = new File(directorio);
-         
-         DocumentBuilderFactory dbFactory  = DocumentBuilderFactory.newInstance();
-         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-         Document doc = dBuilder.parse(inputFile);
-         doc.getDocumentElement().normalize();
-         
-         //Obtenemos los documentos
-         
-         NodeList nList = doc.getElementsByTagName("DOC");
-         
-         for (int temp = 0; temp < nList.getLength(); temp++) 
-         {
-            Noticia noticia = new Noticia(); 
-            Node nNode = nList.item(temp);
+        
+        //Abrimos el directorio donde tenemos los documentos
+        File f = new File(directorio);
+        
+        ArrayList<String> nombres = new ArrayList<String>();
+        
+        if (f.exists())
+        { 
+            File[] ficheros = f.listFiles();
             
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-               Element eElement = (Element) nNode;
+            for (File fichero : ficheros) {
+                if ((!fichero.getName().equals(".") || !fichero.getName().equals(".."))&&(fichero.getName().contains(".xml"))) 
+                {
+                    nombres.add(fichero.getName());
+                }
+            } 
+            
+            nombres.forEach((nombre) -> {
+                try
+                {	
+                    File inputFile = new File("./testdata/"+nombre);
 
-               noticia.setDate(eElement.getElementsByTagName("DATE")
-                  .item(0)
-                  .getTextContent());
-               
-               noticia.setTitle(eElement.getElementsByTagName("TITLE")
-                  .item(0)
-                  .getTextContent());  
-               
-               noticia.setText(eElement.getElementsByTagName("TEXT")
-                  .item(0)
-                  .getTextContent());  
-            }
+                    DocumentBuilderFactory dbFactory  = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(inputFile);
+                    doc.getDocumentElement().normalize();
+
+                    //Obtenemos los documentos
+
+                    NodeList nList = doc.getElementsByTagName("DOC");
+                    
+                    for (int temp = 0; temp < nList.getLength(); temp++) 
+                    {
+                        Noticia noticia = new Noticia();
+                        Node nNode = nList.item(temp);
+                        
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE)
+                        {
+                            Element eElement = (Element) nNode;
+
+                            noticia.setDate(eElement.getElementsByTagName("DATE")
+                                    .item(0)
+                                    .getTextContent());
+                            
+                            noticia.setTitle(eElement.getElementsByTagName("TITLE")
+                                    .item(0)
+                                    .getTextContent());
+                            
+                            noticia.setText(eElement.getElementsByTagName("TEXT")
+                                    .item(0)
+                                    .getTextContent());
+                        }
+                        
+                        Parser.noticias.add(noticia);
+                    }
+                }
+                catch (IOException | ParserConfigurationException | DOMException | SAXException e) 
+                {
+
+                }
+            });
+        }
+        else 
+        {
+            //Directorio no existe 
+            System.err.println("Directorio no encontrado.");
             
-            this.noticias.add(noticia);
-         }         
-      } 
-      catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
-      }
+        }
     }
 }

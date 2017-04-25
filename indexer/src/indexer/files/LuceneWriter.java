@@ -8,8 +8,13 @@ package indexer.files;
 import java.io.File;
 import java.io.IOException;
 import indexer.data.Noticia;
+import java.util.Arrays;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -49,7 +54,10 @@ public class LuceneWriter {
             Directory dir = FSDirectory.open(new File(pathToIndex));
             
             //Elegimos un Analyzer . Y especificamos la versión de Lucene que usamos
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);
+            SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_43, 
+                    new CharArraySet(Version.LUCENE_43, 
+                    Arrays.asList(StringUtils.split(FileUtils.readFileToString(
+                    new File("./testdata/palabrasvacias.txt"), "UTF-8"))), true));
         
             //Creamos un IndexWriterConfig 
             IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_43, analyzer);
