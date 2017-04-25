@@ -50,10 +50,6 @@ public class DomParserDemo
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                Element eElement = (Element) nNode;
 
-               System.out.println(eElement.getElementsByTagName("DATE")
-                  .item(0)
-                  .getTextContent());
-               
                noticia.setDate(eElement.getElementsByTagName("DATE")
                   .item(0)
                   .getTextContent());
@@ -62,17 +58,9 @@ public class DomParserDemo
                   .item(0)
                   .getTextContent());  
                
-                System.out.println(eElement.getElementsByTagName("TITLE")
-                  .item(0)
-                  .getTextContent());
-               
                noticia.setText(eElement.getElementsByTagName("TEXT")
                   .item(0)
                   .getTextContent());  
-               
-                System.out.println(eElement.getElementsByTagName("TEXT")
-                  .item(0)
-                  .getTextContent());
             }
             
             noticia.toString();

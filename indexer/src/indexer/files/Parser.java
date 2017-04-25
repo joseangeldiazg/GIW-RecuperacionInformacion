@@ -41,6 +41,16 @@ public class Parser
     }
     
     /**
+    * Método para obtener las noticias parseadas.
+    * @return estructura con las noticias y sus elementos
+    */
+    
+    public ArrayList<Noticia> getNoticias()
+    {
+        return this.noticias;
+    }
+    
+    /**
     * Método para parsear noticias y cargarlas en la clase.
     * @param directorio String con el directorio
     * @return Array de peliculas

@@ -5,12 +5,11 @@
  */
 package indexer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
 import indexer.data.Noticia;
-import indexer.files.FileOpener;
 import indexer.files.LuceneWriter;
+import indexer.files.Parser;
 
 /**
  *
@@ -27,30 +26,27 @@ public class Indexer {
      */
     public static void main(String[] args) throws IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
 
-        //abrimos nuestros datos
-        FileOpener fOpener = new FileOpener("peliculas.json");
+        //Abrimos el fichero y lo parseamos
+        
+        Parser parser = new Parser();
+        parser.parseNews("./data/sencillo.xml");
         
         LuceneWriter luceneWriter = new LuceneWriter("indexDir");
         
-        
-        try {
-            
+        try 
+        {   
             //Vemos si podemos abrir un directorio para escribir
-            if (luceneWriter.openIndex()){
-                
-                BufferedReader breader = new BufferedReader(fOpener.getFileForReading());
-                String value = null;
-                while((value = breader.readLine()) != null){
-                    Noticia noticia  = objectMapper.readValue(value, Noticia.class);
-                    //añadimos cada pelicula al indice
+            if (luceneWriter.openIndex())
+            {
+                for (Noticia noticia : parser.getNoticias()) 
+                {
                     luceneWriter.addNoticia(noticia);
-                    
                 }
-                
-            } else {
+            }   
+            else 
+            {
                 System.out.println("Problema detectado para abrir el directorio para escribir");
             }
-             
             
         } catch (Exception e) {
             System.out.println("Threw exception " + e.getClass() + " :: " + e.getMessage());
