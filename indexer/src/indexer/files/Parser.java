@@ -73,7 +73,7 @@ public class Parser
                 }
             } 
             
-            nombres.forEach((nombre) -> {
+            nombres.forEach((String nombre) -> {
                 try
                 {	
                     File inputFile = new File("./testdata/"+nombre);
@@ -96,10 +96,10 @@ public class Parser
                         {
                             Element eElement = (Element) nNode;
 
-                            noticia.setDate(eElement.getElementsByTagName("DATE")
+                            noticia.setDate(Integer.parseInt(eElement.getElementsByTagName("DATE")
                                     .item(0)
-                                    .getTextContent());
-                            
+                                    .getTextContent()));
+                           
                             noticia.setTitle(eElement.getElementsByTagName("TITLE")
                                     .item(0)
                                     .getTextContent());

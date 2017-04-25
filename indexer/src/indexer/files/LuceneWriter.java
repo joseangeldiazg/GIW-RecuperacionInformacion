@@ -17,6 +17,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -81,9 +82,9 @@ public class LuceneWriter {
         
         doc.add(new StringField("Title", noticia.getTitle(), Field.Store.YES));
         
-        doc.add(new TextField("Text", noticia.getText(), Field.Store.NO));
+        doc.add(new TextField("Text", noticia.getText(), Field.Store.YES));
         
-        doc.add(new StringField("Date", noticia.getDate(), Field.Store.YES));
+        doc.add(new IntField("Date", noticia.getDate(), Field.Store.YES));
         try 
         {
             indexWriter.addDocument(doc);
