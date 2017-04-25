@@ -31,18 +31,20 @@ public class LuceneWriter {
     String pathToIndex = "";
     IndexWriter indexWriter = null;
 
-    private LuceneWriter() {
+    private LuceneWriter() 
+    {
+        
     }
 
-    public LuceneWriter(String pathToIndex) {
+    public LuceneWriter(String pathToIndex) 
+    {
         this.pathToIndex = pathToIndex;
     }
     
-    public boolean openIndex(){
-        
-        
-        try {
-            
+    public boolean openIndex()
+    {
+        try 
+        {
             //Abrimos el directorio
             Directory dir = FSDirectory.open(new File(pathToIndex));
             
@@ -57,33 +59,44 @@ public class LuceneWriter {
             indexWriter = new IndexWriter(dir, iwc);
             
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Ocurrio un problema abriendo el documento para escritura: " + e.getClass() + " :: " + e.getMessage());
             return false;
         }            
     }
     
-    public void addNoticia(Noticia noticia){
+    public void addNoticia(Noticia noticia)
+    {
         Document doc = new Document();
+        
         doc.add(new StringField("Title", noticia.getTitle(), Field.Store.YES));
+        
         doc.add(new TextField("Text", noticia.getText(), Field.Store.NO));
+        
         doc.add(new StringField("Date", noticia.getDate(), Field.Store.YES));
-        try {
+        try 
+        {
             indexWriter.addDocument(doc);
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             System.out.println("Ocurrio un problema al añadir el documento: " + ex.getClass() + " :: " + ex.getMessage());
         }
         System.out.println("Añadida noticia: "+noticia.getTitle() );
-        
     }    
-    public void finish(){
-        try {
+    public void finish()
+    {
+        try 
+        {
             //Realizamos un commit para guardar
-            indexWriter.commit();
-            
+            indexWriter.commit();  
             //Cerramos el indexwriter
             indexWriter.close();
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             System.out.println("Ocurrio un problema cerrando el indice: " + ex.getClass() + " :: " + ex.getLocalizedMessage());
         }
     }  
