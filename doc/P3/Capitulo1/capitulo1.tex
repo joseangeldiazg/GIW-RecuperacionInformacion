@@ -6,7 +6,7 @@
 
 \chapter{Desarrollo práctico}
 
-La práctica número 3 de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recuperación de información basado en Lucene. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista. 
+La práctica número 3 de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recuperación de información basado en Lucene \cite{lucene}. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista. 
 
 
 \begin{enumerate}
@@ -25,15 +25,19 @@ En el sistema de recuperación de información tendremos dos partes diferenciadas 
 En esta sección se realiza un pequeño análisis de requisitos funcionales y no funcionales que el sistema deberá cumplir.
 
 \subsection{Requisitos Funcionales}
+\label{funcionales}
 
 \begin{itemize}
 
 \item \textbf{RF1}: El sistema permitirá la realización de búsquedas por texto de las noticias.
 
-\item \textbf{RF2}: El sistema permitirá noticias películas por rango de fechas.
-\item \textbf{RF3}: Los resultados se mostraran en una caja de texto con un formato correcto para que el usuario final pueda entenderlos perfectamente.
-\item \textbf{RF4}: La caja de texto pasará a verde cuando la consulta ofrezca resultados. 
-\item \textbf{RF5}: Se podrá abortar la aplicación por medio de un botón salir.
+\item \textbf{RF2}: El sistema permitirá buscar noticias por rango de fechas.
+
+\item \textbf{RF3}: Los resultados se mostraran en una caja de texto con un formato correcto para que el usuario final pueda entenderlos perfectamente.
+
+\item \textbf{RF4}: La caja de texto pasará a verde cuando la consulta ofrezca resultados. 
+
+\item \textbf{RF5}: Se podrá abortar la aplicación por medio de un botón salir.
 
 \end{itemize}
 
@@ -47,12 +51,54 @@ En esta sección se realiza un pequeño análisis de requisitos funcionales y no fu
 
 \end{itemize}
 
-\section{Implementación}
+\section{Diseño de la solución}
+
+En este punto se ven los conceptos de diseño y desarrollo software tenidos en cuenta durante la práctica. 
 
 \subsection{indexer}
 
+La aplicación de indexación esta dividida en 4 clases: La clase principal donde se lleva a cabo el proceso de indexación, una clase auxiliar para crear la estructura de datos necesaria para manejar las noticias y por ultimo las clases más importantes: \textbf{parser.java} encargada de obtener las etiquetas interesantes del fichero XML y cargarlas en las estructuras provistas para ello y por último \textbf{lucenewriter.java} que implementa todo el proceso de añadir nuevos documentos al indice. 
+
+\begin{itemize}
+
+\item \textbf{noticia.java}: Tiene como atributos privado de clase los elementos de información necesarios de la noticia y como públicos una serie de métodos get-set que serán usados en el proceso de búsqueda para obtener una información que sea relevante para el usuario y de manera estructurada. Notar la sencillez que esta modularización nos ofrecería de cara a añadir nuevos elementos al indice. 
+\item \textbf{indexer.java}: Implementa el método principal. Este comprueba que los argumentos que veremos en la seccion \ref{manual} sean los adecuados y tras ello obtiene cada una de las noticias, las recorre y llama a la clase lucenewriter para añadir los elementos al indice. 
+
+\item \textbf{lucenewriter.java}: Esta clase implementa los métodos necesarios para el manejo del indice, por un lado abrirlo y cerrarlo y por otro añadir noticias, donde hemos tenido las siguientes consideraciones:
+
+\begin{itemize}
+
+\item Title: Este texto lo guardamos como \textbf{StringField} para permitir búsquedas literales por el título. 
+
+\item Date: Se ha incluido el campo fecha, para poder buscar por rango de noticias, este campo será por tanto un cambo \textbf{IntField}.
+
+\item Text: Quizá sea el elemento mas complicado dado que su tamaño nos puede complicar mucho la gestión del indice, dado que necesitamos buscar por el, pero necesitamos que el indice sea eficiente no podemos asignar StringField sino que lo guardaremos como \textbf{TextField} lo que conlleva que se lleven a cabo los procesos de tokenizado y mejora vistos en teoría.
+\end{itemize}
+
+\item \textbf{parser.java}: Implementa el parseo de los documentos xml usando el DOM. 
+
+\end{itemize}
+
 \subsection{searcher}
 
+La aplicación de búsqueda consta de tres clases. Por un lado la anteriormente mencionada de \textbf{Noticia.java} para el manejo de noticias, por otro lado el \textbf{searcher.java}, donde se implementan las consultas en si, y por último \textbf{interfaz.java}, donde tenemos esta implementada la interfaz gráfica del sistema. 
+
+La clase \textbf{interfaz.java} ha sido creada usando la suite para creación de interfaces de java, por lo que no tiene mayor dificultad en su creación. Simplemente debemos tener cuidado de cuando se pulse el botón se llame al método en \textbf{searcher.java} con los parámetros apropiados.
+
+Respecto a la clase \textbf{searcher.java}, consta de los siguientes métodos de búsqueda que llevan a cabo el cumplimiento de los requisitos funcionales de búsqueda vistos en \ref{funcionales}.
+
+\begin{itemize}
+\item \textbf{public ArrayList<Noticia> busquedaTexto(String cadena)}:
+
+Este método es usado para la búsqueda de textos de la manera siguiente. Se abre la ubicación del indice y se crea un buscador sobre el indice. Se crea un parser y como el \textbf{Text} estaba tokenizado debemos tratar de igual forma la entrada de la consulta. Por último introduciremos en un ArrayList de noticias las noticias que cumplan nuestro criterio de búsqueda y las devolveremos a la clase interfaz.java para ser mostradas en la interfaz de usuario. Este método de presentación de resultados lo haremos usando los get que teníamos en la clase noticias y será usado de igual forma en todas los métodos.
+
+\item \textbf{public ArrayList<Noticia> consultaRango(Integer rangoA, Integer rangoB)}: Este método se encarga de las consultas por rango sobre \textbf{Date} para ello simplemente se fijará en este campo. Nos hemos basado en ejemplos e informacion obtenida de la documentacion de Lucene \cite{numeric}. La consulta se crea de la siguiente manera:
+
+\begin{lstlisting}
+	Query q = NumericRangeQuery.newIntRange("Date", rangoA, rangoB, true, true);
+\end{lstlisting}
+
+\end{itemize}
 
 \section{Manual de uso}
 \label{manual}
@@ -93,7 +139,8 @@ Tras esto podremos ver la interfaz de búsqueda que podemos ver en la  imagen \re
 \end{figure}
 
 \section{Conclusiones}
-Tras la realización de la practica hemos podido constatar de la potencia de Lucene para la realización de aplicaciones de diverso tipo. También es destacable la facilidad de uso al menos de las nociones básicas y la cantidad de documentación que podemos obtener de la comunidad en internet.
+
+Tras la realización de la practica hemos podido constatar de la potencia de Lucene para la realización de aplicaciones de diverso tipo. También es destacable la facilidad de uso al menos de las nociones básicas y la cantidad de documentación que podemos obtener de la comunidad en internet.
 
 \clearpage
 %---------------------------------------------------
