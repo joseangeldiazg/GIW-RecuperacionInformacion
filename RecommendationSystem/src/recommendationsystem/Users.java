@@ -9,13 +9,14 @@ package recommendationsystem;
  *
  * @author joseadiazg
  */
-public class Usuarios {
+public class Users {
     
     private int user_id;
     private String sex;
     private int age;
+    private int avg_rating;
 
-    public Usuarios(int user_id, String sex, int age) {
+    public Users(int user_id, int age, String sex) {
         this.user_id = user_id;
         this.sex = sex;
         this.age = age;
@@ -45,9 +46,19 @@ public class Usuarios {
         this.age = age;
     }
 
+    public int getAvg_rating() {
+        return avg_rating;
+    }
+
+    public void setAvg_rating(int avg_rating) {
+        this.avg_rating = avg_rating;
+    }
+
     @Override
     public String toString() {
-        return "Usuarios{" + "user_id=" + user_id + ", sex=" + sex + ", age=" + age + '}';
-    }   
+        return "Usuarios{" + "user_id=" + user_id + ", sex=" + sex + ", age=" + age + ", avg_rating=" + avg_rating + '}';
+    }
+
+    
     
 }

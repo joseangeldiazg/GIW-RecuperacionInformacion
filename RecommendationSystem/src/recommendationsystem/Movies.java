@@ -9,12 +9,12 @@ package recommendationsystem;
  *
  * @author joseadiazg
  */
-public class Movie {
+public class Movies {
     
     private int movie_id;
     private String movie_title;
 
-    public Movie(int movie_id, String movie_title) {
+    public Movies(int movie_id, String movie_title) {
         this.movie_id = movie_id;
         this.movie_title = movie_title;
     }
