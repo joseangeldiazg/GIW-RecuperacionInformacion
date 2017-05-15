@@ -114,6 +114,33 @@ public final class Dataset {
     
     public void loadRatings(String ratingsFile)
     {
-        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            archivo = new File (ratingsFile);
+            fr = new FileReader (archivo);
+            br = new BufferedReader(fr);
+
+            // Lectura del fichero
+            String linea;            
+            while((linea=br.readLine())!=null)
+            {
+                String[] split = linea.split("\t");
+                ratings.add(new Ratings(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])));
+            }
+                
+        }
+        catch(IOException e){
+        }
+        finally{
+            try{                    
+               if( null != fr ){   
+                    fr.close();     
+                }                  
+            }catch (IOException e2){ 
+            }
+        }
     }
 }
