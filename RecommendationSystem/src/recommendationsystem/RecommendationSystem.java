@@ -27,6 +27,7 @@ public class RecommendationSystem {
         Dataset dataset = new Dataset();
         
         dataset.loadDataset(moviesFile, usersFile, ratingsFile);
+        dataset.loadUserRatings();
         
         /*for (Movies movie : movies) {
             movie.toString();

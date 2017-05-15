@@ -39,6 +39,7 @@ public final class Dataset {
         this.loadMovies(moviesFile);
         this.loadUsers(usersFile);
         this.loadRatings(ratingsFile);
+        
     }
 
     public ArrayList<Movies> getMovies() {
@@ -140,6 +141,25 @@ public final class Dataset {
                     fr.close();     
                 }                  
             }catch (IOException e2){ 
+            }
+        }
+    }
+    
+    public void loadUserRatings()
+    {
+        for(Ratings rating : ratings)
+        {
+            if(userRatings.containsKey(rating.getUser_id()))
+            {
+                //Añadimos nueva pelicula puntuada por el user
+                userRatings.get(rating.getUser_id()).put(rating.getItem_id(),rating.getRating());
+            }
+            else
+            {
+                //Añadimos un nuevo usuario y la pelicula asociada
+                HashMap<Integer,Integer> userRating = new HashMap();
+                userRating.put(rating.getItem_id(),rating.getRating());
+                userRatings.put(rating.getUser_id(),userRating);
             }
         }
     }
