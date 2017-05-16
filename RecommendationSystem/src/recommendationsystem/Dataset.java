@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -287,6 +288,57 @@ public final class Dataset
         return salida;
     }
     
+    
+    public ArrayList<Integer> recomendaciones(Map<Integer, Integer> evaluationsU, 
+            Map<Integer,Float> vecindario)
+    {
+        ArrayList<Integer> recomendaciones = new ArrayList<>();
+        
+        float c, sumatorio_sim, sumatorio_final;
+        float u_avg, v_avg, r_v_i, r_u_i;
+        u_avg=calculaMediaParam(evaluationsU);
+        
+        for(Movies movie : movies)
+        {
+            sumatorio_sim=0;
+            sumatorio_final=0;
+            v_avg=0;
+            r_v_i=0;
+            r_u_i=0;
+            c=0;
+            
+            if(!evaluationsU.containsKey(movie.getMovie_id()))
+            {
+                //Vemos si cada uno de los usuarios del vecindario ha visto esa pelicula
+                for(Integer i : vecindario.keySet())
+                {
+                    if(userRatings.get(i).containsKey(movie.getMovie_id()))
+                    {
+                        v_avg=getAvg(i);
+                        r_v_i=userRatings.get(i).get(movie.getMovie_id());
+                        sumatorio_sim+=vecindario.get(i);
+                        sumatorio_final+=vecindario.get(i)*(r_v_i-v_avg);
+                    }                     
+                }
+                c=(1/abs(sumatorio_sim));
+                r_u_i=u_avg+c*sumatorio_final;
+                
+                if(r_u_i>=4)
+                {
+                    recomendaciones.add(movie.getMovie_id());
+                }
+            }
+            else
+                break;
+        }
+        
+        //Calculamos c
+        
+       
+        
+        
+        return null;
+    }
     
     public float calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
