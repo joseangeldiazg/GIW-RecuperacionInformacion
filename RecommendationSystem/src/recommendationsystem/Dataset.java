@@ -11,18 +11,21 @@ import java.io.FileReader;
 import java.io.IOException;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import static jdk.nashorn.internal.objects.NativeArray.map;
-import static jdk.nashorn.internal.objects.NativeDebug.map;
 
 /**
  *
  * @author joseadiazg
  */
-public final class Dataset {
+public final class Dataset 
+{
     
     private ArrayList<Movies> movies;
     private ArrayList<Ratings> ratings =null;
@@ -254,10 +257,9 @@ public final class Dataset {
     
     public Map<Integer,Float> vecindario(Map<Integer, Integer> evaluations, Map<Integer,Map<Integer,Integer>> v, int k)
     {
-        
-        
         Map<Integer,Float> similitud = new HashMap<>();
-        float v_avg, denominador=0, numerador=0, resultado=0;
+        Map<Integer,Float> salida = new HashMap<>();
+        float v_avg, denominador=0, numerador=0, resultado=0, control=0;
         
         //iteramos sobre todos los usuarios que tienen las mismas evaluaciones
         for(Integer i: v.keySet())
@@ -269,7 +271,20 @@ public final class Dataset {
             similitud.put(i,resultado);
         }
 
-        return similitud;
+        // ordenamos los valores por mayor valor de value y devolvemos los k primeros
+        Map<Integer,Float> ordenado = sortHashMapByValues(similitud);
+        
+        for(Integer i : ordenado.keySet())
+        {
+            if(control<k)
+            {
+                salida.put(i, ordenado.get(i));
+            }
+            else 
+                break;
+        }
+        
+        return salida;
     }
     
     
@@ -302,9 +317,7 @@ public final class Dataset {
         for(Integer i : keys)
         {
             numerador+=((evaluationsU.get(i)-u_avg)*(evaluationsV.get(i)-v_avg));
-        }
-        
-        
+        }   
         return numerador;  
     }
     
@@ -319,5 +332,34 @@ public final class Dataset {
             }
         }
         return avg;
+    }
+    
+    public LinkedHashMap<Integer, Float> sortHashMapByValues(Map<Integer, Float> passedMap) 
+    {
+        List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
+        List<Float> mapValues = new ArrayList<>(passedMap.values());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        LinkedHashMap<Integer, Float> sortedMap = new LinkedHashMap<>();
+
+        Iterator<Float> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Float val = valueIt.next();
+            Iterator<Integer> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                Integer key = keyIt.next();
+                Float comp1 = passedMap.get(key);
+                Float comp2 = val;
+
+                if (comp1.equals(comp2)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        return sortedMap;
     }
 }
