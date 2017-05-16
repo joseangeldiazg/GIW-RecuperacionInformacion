@@ -162,5 +162,26 @@ public final class Dataset {
                 userRatings.put(rating.getUser_id(),userRating);
             }
         }
+        
+        calculaMedia();
     }
+    
+    public void calculaMedia()
+    {
+        for (Users user : users)
+        {
+            Map<Integer,Integer> userRating = new HashMap();
+            userRating= userRatings.get(user.getUser_id()); 
+            
+            float sum=0.0f;
+            float avg=0.0f;
+            
+            for(float f: userRating.values())
+            {
+                sum+=f;
+            }
+            avg=sum/userRating.size();
+            user.setAvg_rating(avg);
+        }
+    }  
 }

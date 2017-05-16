@@ -14,7 +14,7 @@ public class Users {
     private int user_id;
     private String sex;
     private int age;
-    private int avg_rating;
+    private float avg_rating;
 
     public Users(int user_id, int age, String sex) {
         this.user_id = user_id;
@@ -46,11 +46,11 @@ public class Users {
         this.age = age;
     }
 
-    public int getAvg_rating() {
+    public float getAvg_rating() {
         return avg_rating;
     }
 
-    public void setAvg_rating(int avg_rating) {
+    public void setAvg_rating(float avg_rating) {
         this.avg_rating = avg_rating;
     }
 
