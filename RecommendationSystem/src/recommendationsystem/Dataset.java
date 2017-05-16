@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -274,22 +275,25 @@ public final class Dataset {
     
     public float calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
-        float u_avg, denominador=0;
+        float u_avg, denominador=0, sumatoria_v=0, sumatoria_u=0;
         u_avg=calculaMediaParam(evaluationsU);
         
         SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
         
         for(Integer i : keys)
         {
-            
+            sumatoria_u+=((evaluationsU.get(i)-u_avg)*(evaluationsU.get(i)-u_avg));
+            sumatoria_v+=((evaluationsV.get(i)-v_avg)*(evaluationsU.get(i)-u_avg));
         }
+        
+        denominador = (float) (sqrt(sumatoria_u)*sqrt(sumatoria_v));
         
         return denominador; 
     }
     
     public float calcNumerador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
-        float u_avg, numerador=0, sumatoria_v=0, sumatoria_u=0;
+        float u_avg, numerador=0;
         u_avg=calculaMediaParam(evaluationsU);
         
         //Ordenamos los maps para asegurarnos que estan el el mismo orden
@@ -297,8 +301,6 @@ public final class Dataset {
         
         for(Integer i : keys)
         {
-            sumatoria_u+=(evaluationsU.get(i)-u_avg);
-            sumatoria_v+=(evaluationsV.get(i)-v_avg);
             numerador+=((evaluationsU.get(i)-u_avg)*(evaluationsV.get(i)-v_avg));
         }
         
