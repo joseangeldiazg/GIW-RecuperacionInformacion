@@ -34,16 +34,17 @@ public final class Dataset {
         
     }
     
+
+    public ArrayList<Movies> getMovies() {
+        return movies;
+    }
+    
     public void loadDataset(String moviesFile, String usersFile, String ratingsFile) throws IOException
     {
         this.loadMovies(moviesFile);
         this.loadUsers(usersFile);
         this.loadRatings(ratingsFile);
         
-    }
-
-    public ArrayList<Movies> getMovies() {
-        return movies;
     }
     
     public void loadMovies(String moviesFile) throws IOException
@@ -183,5 +184,96 @@ public final class Dataset {
             avg=sum/userRating.size();
             user.setAvg_rating(avg);
         }
-    }  
+    }
+    
+    public float calculaMediaParam(Map<Integer,Integer> userRating)
+    {
+        float sum=0.0f;
+        float avg=0.0f;
+            
+        for(float f: userRating.values())
+        {
+            sum+=f;
+        }
+        avg=sum/userRating.size();
+        
+        return avg;
+    }
+    
+    public Map<Integer,Map<Integer,Integer>> getV(Map<Integer, Integer> evaluations)
+    {
+        Map<Integer,Map<Integer,Integer>> equal = new HashMap();
+        int control=0;
+        
+        for(Users user : users)
+        {
+            
+            Map<Integer, Integer> values = new HashMap();
+            values=userRatings.get(user.getUser_id());
+               
+            if(evaluations.size()<=values.size())
+            {
+                for(Integer i: evaluations.keySet())
+                {
+                    if(values.containsKey(i))
+                    {
+                        control++;
+                    }
+                }
+
+                if(control==evaluations.size()-1)
+                {
+                    //Si estamos aqui significará que todas las peliculas coinciden
+                    
+                    for(Integer i: evaluations.keySet())
+                    {
+                        if(equal.containsKey(user.getUser_id()))
+                        {
+                            //Añadimos nueva pelicula puntuada por el user
+                            equal.get(user.getUser_id()).put(i,values.get(i));
+                        }
+                        else
+                        {
+                            HashMap<Integer,Integer> userRating = new HashMap();
+                            userRating.put(i,values.get(i));
+                            equal.put(user.getUser_id(),userRating);
+                        }   
+                    }
+                    
+                }
+                
+            }            
+        } 
+        return equal;
+    }
+    
+    public Map<Integer,Float> vecindario(Map<Integer, Integer> evaluations, Map<Integer,Map<Integer,Integer>> v, int k)
+    {
+        
+        
+        Map<Integer,Float> result = new HashMap<>();
+        
+        for(Integer i: v.keySet())
+        {
+            //iteramos sobre todos los usuarios que tienen las mismas evaluaciones
+            
+        }
+        
+        
+        return null;
+
+    }
+    
+    public void calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
+    {
+        float u_avg;
+        u_avg=calculaMediaParam(evaluationsU);
+        
+        
+    }
+    
+    public void calcNumerador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV)
+    {
+        
+    }
 }
