@@ -366,18 +366,7 @@ public final class Dataset
         return numerador;  
     }
     
-    public float getAvg(int user_id)
-    {
-        float avg=0;
-        for(Users user: users)
-        {
-            if(user.getUser_id()==user_id)
-            {
-                avg=user.getUser_id();
-            }
-        }
-        return avg;
-    }
+    
     
     public LinkedHashMap<Integer, Float> sortHashMapByValues(Map<Integer, Float> passedMap) 
     {
@@ -406,5 +395,31 @@ public final class Dataset
             }
         }
         return sortedMap;
+    }
+    
+    public String findMovie(int id_movie)
+    {
+        String title=null;
+        for(Movies movie: movies)
+        {
+            if(movie.getMovie_id()==id_movie)
+            {
+                title=movie.getMovie_title();
+            }
+        }
+        return title;
+    }
+    
+    public float getAvg(int user_id)
+    {
+        float avg=0;
+        for(Users user: users)
+        {
+            if(user.getUser_id()==user_id)
+            {
+                avg=user.getUser_id();
+            }
+        }
+        return avg;
     }
 }

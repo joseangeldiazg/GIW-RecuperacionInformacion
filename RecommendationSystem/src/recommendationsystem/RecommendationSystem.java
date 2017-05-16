@@ -25,7 +25,7 @@ public class RecommendationSystem {
         // TODO code application logic here
         
         final int K = 7;
-        final int VALORACIONES = 20;
+        final int VALORACIONES = 10;
         
         String moviesFile = "/Users/joseadiazg/Desktop/MASTER/GIW-RecuperacionInformacion/RecommendationSystem/ml-data/u.item";
         String usersFile = "/Users/joseadiazg/Desktop/MASTER/GIW-RecuperacionInformacion/RecommendationSystem/ml-data/u.user";
@@ -74,6 +74,19 @@ public class RecommendationSystem {
             
             valoraciones.put(dataset.getMovies().get(numero).getMovie_id(), rating);
             repetidos.add(numero);
-        }   
+        }
+
+        //Calculamos el vecindario 
+        
+        Map<Integer,Float> vecindario = dataset.vecindario(valoraciones, K);
+        ArrayList<Integer> recomendaciones = dataset.recomendaciones(valoraciones, vecindario); 
+        
+        System.out.println("Quizá te podría interesar las siguientes peliculas...");
+        
+        for (Integer recomendacion : recomendaciones) 
+        {
+            System.out.println("Quizá te podría interesar las siguientes peliculas...");
+            System.out.println(dataset.findMovie(recomendacion));
+        }  
     } 
 }
