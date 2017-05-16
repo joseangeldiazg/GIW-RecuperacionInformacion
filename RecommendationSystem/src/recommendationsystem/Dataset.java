@@ -212,7 +212,6 @@ public final class Dataset
     public Map<Integer,Map<Integer,Integer>> getV(Map<Integer, Integer> evaluations)
     {
         Map<Integer,Map<Integer,Integer>> equal = new HashMap();
-        int control=0;
         
         for(Users user : users)
         {
@@ -220,21 +219,9 @@ public final class Dataset
             Map<Integer, Integer> values = new HashMap();
             values=userRatings.get(user.getUser_id());
                
-            if(evaluations.size()<=values.size())
-            {
                 for(Integer i: evaluations.keySet())
                 {
                     if(values.containsKey(i))
-                    {
-                        control++;
-                    }
-                }
-
-                if(control==evaluations.size()-1)
-                {
-                    //Si estamos aqui significará que todas las peliculas coinciden
-                    
-                    for(Integer i: evaluations.keySet())
                     {
                         if(equal.containsKey(user.getUser_id()))
                         {
@@ -248,8 +235,7 @@ public final class Dataset
                             equal.put(user.getUser_id(),userRating);
                         }   
                     }
-                }
-            }            
+                }  
         } 
         return equal;
     }
@@ -340,10 +326,14 @@ public final class Dataset
         
         SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
         
+        
+        //Comprobar solo las que tienen en comun c con u -> HACER
+        
         for(Integer i : keys)
         {
             sumatoria_u+=((evaluationsU.get(i)-u_avg)*(evaluationsU.get(i)-u_avg));
-            sumatoria_v+=((evaluationsV.get(i)-v_avg)*(evaluationsU.get(i)-u_avg));
+            
+            sumatoria_v+=((evaluationsV.get(i)-v_avg)*(evaluationsV.get(i)-v_avg)); 
         }
         
         denominador = (float) (sqrt(sumatoria_u)*sqrt(sumatoria_v));
@@ -359,14 +349,14 @@ public final class Dataset
         //Ordenamos los maps para asegurarnos que estan el el mismo orden
         SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
         
+        //Comprobar solo las que tienen en comun c con u -> HACER
+        
         for(Integer i : keys)
         {
             numerador+=((evaluationsU.get(i)-u_avg)*(evaluationsV.get(i)-v_avg));
         }   
         return numerador;  
     }
-    
-    
     
     public LinkedHashMap<Integer, Float> sortHashMapByValues(Map<Integer, Float> passedMap) 
     {

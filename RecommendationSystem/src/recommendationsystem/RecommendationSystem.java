@@ -25,7 +25,7 @@ public class RecommendationSystem {
         // TODO code application logic here
         
         final int K = 7;
-        final int VALORACIONES = 10;
+        final int VALORACIONES = 3;
         
         String moviesFile = "/Users/joseadiazg/Desktop/MASTER/GIW-RecuperacionInformacion/RecommendationSystem/ml-data/u.item";
         String usersFile = "/Users/joseadiazg/Desktop/MASTER/GIW-RecuperacionInformacion/RecommendationSystem/ml-data/u.user";
