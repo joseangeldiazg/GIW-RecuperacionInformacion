@@ -248,16 +248,15 @@ public final class Dataset
                             equal.put(user.getUser_id(),userRating);
                         }   
                     }
-                    
                 }
-                
             }            
         } 
         return equal;
     }
     
-    public Map<Integer,Float> vecindario(Map<Integer, Integer> evaluations, Map<Integer,Map<Integer,Integer>> v, int k)
+    public Map<Integer,Float> vecindario(Map<Integer, Integer> evaluations, int k)
     {
+        Map<Integer,Map<Integer,Integer>> v = getV(evaluations);
         Map<Integer,Float> similitud = new HashMap<>();
         Map<Integer,Float> salida = new HashMap<>();
         float v_avg, denominador=0, numerador=0, resultado=0, control=0;
@@ -330,14 +329,8 @@ public final class Dataset
             }
             else
                 break;
-        }
-        
-        //Calculamos c
-        
-       
-        
-        
-        return null;
+        }   
+        return recomendaciones;
     }
     
     public float calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
