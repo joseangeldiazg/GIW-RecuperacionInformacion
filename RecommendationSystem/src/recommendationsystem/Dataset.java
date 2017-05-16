@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import static jdk.nashorn.internal.objects.NativeArray.map;
+import static jdk.nashorn.internal.objects.NativeDebug.map;
 
 /**
  *
@@ -251,29 +255,67 @@ public final class Dataset {
     {
         
         
-        Map<Integer,Float> result = new HashMap<>();
+        Map<Integer,Float> similitud = new HashMap<>();
+        float v_avg, denominador=0, numerador=0, resultado=0;
         
+        //iteramos sobre todos los usuarios que tienen las mismas evaluaciones
         for(Integer i: v.keySet())
         {
-            //iteramos sobre todos los usuarios que tienen las mismas evaluaciones
+            v_avg=getAvg(i);
+            denominador= calcDenominador(evaluations, v.get(i), v_avg);
+            numerador = calcNumerador(evaluations, v.get(i), v_avg);
+            resultado=numerador/denominador;
+            similitud.put(i,resultado);
+        }
+
+        return similitud;
+    }
+    
+    
+    public float calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
+    {
+        float u_avg, denominador=0;
+        u_avg=calculaMediaParam(evaluationsU);
+        
+        SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
+        
+        for(Integer i : keys)
+        {
             
         }
         
-        
-        return null;
-
+        return denominador; 
     }
     
-    public void calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
+    public float calcNumerador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
-        float u_avg;
+        float u_avg, numerador=0, sumatoria_v=0, sumatoria_u=0;
         u_avg=calculaMediaParam(evaluationsU);
         
+        //Ordenamos los maps para asegurarnos que estan el el mismo orden
+        SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
         
+        for(Integer i : keys)
+        {
+            sumatoria_u+=(evaluationsU.get(i)-u_avg);
+            sumatoria_v+=(evaluationsV.get(i)-v_avg);
+            numerador+=((evaluationsU.get(i)-u_avg)*(evaluationsV.get(i)-v_avg));
+        }
+        
+        
+        return numerador;  
     }
     
-    public void calcNumerador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV)
+    public float getAvg(int user_id)
     {
-        
+        float avg=0;
+        for(Users user: users)
+        {
+            if(user.getUser_id()==user_id)
+            {
+                avg=user.getUser_id();
+            }
+        }
+        return avg;
     }
 }
