@@ -56,6 +56,48 @@ En esta sección se realiza un pequeño análisis de requisitos funcionales y no fu
 
 \section{Diseño de la solución}
 
+El programa desarrollado durante la realización de la práctica corresponde con el siguiente diagrama de clases simplificado. 
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.45]{./Capitulo1/Imagenes/class.png}
+		\caption{Diagrama de clases.}
+	\label{clases}
+\end{figure}
+
+\subsection{Estructuras de datos}
+\label{ed}
+
+Para el desarrollo de la práctica se han usado las siguientes estructuras de datos:
+
+\begin{itemize}
+	\item \textbf{Para almacenar el dataset}: Un ArrayList para cada una de las entidades (Movies, Ratings y Users). 
+	\item \textbf{Para almacenar los ratings para cada usuario}: Un HashMap[ Integer, HashMap [Integer,Integer]. En este, la clave del primer map, corresponde al id del usuario mientras que las claves y valores del segundo map corresponden a pares id\_pelicula-valoración.
+	\item \textbf{Para almacenar el rating del usuario objetivo}: Un HashMap[ Integer,Integer] donde clave es el id de la película y el valor la valoración dada.  
+	\item \textbf{Para almacenar las similitudes}: Un HashMap[Integer,Float] donde la clave es el id\_usuario de cada vecino y el valor es el valor de similitud del usuario objetivo con ese vecino. 
+\end{itemize}
+
+\subsection{Desarrollo}
+
+
+Las clases \textbf{Movies.java, Ratings.java} y \textbf{Users.java} son clases sencillas que implementan una serie de métodos get y set, además de los constructores para, para gestionar cada uno de los elementos que componen las entidades. En la clase \textbf{Users.java} se han añadido además de los identificadores algunos datos correspondientes a cada usuario en concreto para facilitar la extensibilidad del sistema o afinamiento del mismo por similitud física entre los usuarios. Esta funcionalidad finalmente no ha sido implementada y se valora en las vías futuras (capítulo \ref{vias}).
+
+La clase esencial del trabajo es por tanto \textbf{Dataset.java}. En ella, se realizan todas las operaciones de carga de datos así como del computo de vecindarios y recomendaciones. Esta clase se ha implementado usando el principio de modularidad, dotándola de más potencia, o al menos, de una mejor comprensión.  Hay algunos métodos auxiliares como los relacionados con el \textbf{cálculo de la media} de ratings para los usuarios, los métodos de carga de datos o métodos usados para la ordenación de los maps vistos en \ref{ed}. Dada la nula relación de estos métodos anteriormente descritos con el proceso de recomendación, obviaremos su explicación y entraremos en detalle en los métodos íntimamente ligados con el proceso como tal. 
+
+
+\begin{itemize}
+	\item \textbf{vecindario(evaluations, k)}: Esta es la función encargada de encontrar los \textbf{k} vecinos más cercanos al usuario objetivo, para ello, se basará en las evaluaciones dadas por el usuario (evaluations). En primera instancia este método calcula el \textbf{conjunto v} haciendo uso del método \textbf{getV} que describiremos en las siguientes líneas. Una vez obtenidos estos parámetros calcula los miembros matemáticos necesarios para ejecutar la correlación de Pearson.  Por ultimo, ofrece los k mejores en función de la similitud. 	
+	
+	\item \textbf{getV (evaluationsU)}: Este método calcula el \textbf{conjunto v}. Este está formado por todos los usuarios y películas + evaluación que tienen en común al menos una película vista con el usuario objetivo, es un método iterativo simple que comprueba para cada usuario si tiene películas en común con el usuario final. 
+	
+	\item \textbf{calcDenominador (evaluationsU, evaluationsV, v\_Avg)}: Este método junto con \textbf{calcNumerador} complementan la función vecindario. Para cada V se genera su intersección con U para generar esta parte de la función con las distintas sumatorias y productos solo con los elementos en común. 	
+	
+	\item \textbf{calcNumerador (evaluationsU, evaluationsV, v\_Avg)}: Es similar a \textbf{calcDenominador} pero se aplica al denominador de la correlación Pearson.
+	
+		\item \textbf{recomendaciones (evaluationsU, vecindario)}: Una vez tenemos el vecindario que nos devuelve la función \textbf{vecindario}, tenemos que predecir las recomendaciones. Para ello, de nuevo usaremos la función matemática que calcularemos sobre cada película que los usuarios del vecindario hayan visto pero el usuario final no, si una vez calculado el rating este es mayor o igual de cuatro, añadiremos el id de la película al array de salida. 
+\end{itemize}
+
+
 \section{Manual de uso}
 
 El uso del sistema es muy sencillo deberemos ejecutar el archivo \textbf{.jar} ubicado en la carpeta \textbf{ejecutable} de la siguiente manera:
@@ -83,7 +125,7 @@ Una vez valoradas las 20 películas que el sistema nos muestra, este realizará un
 \end{figure}
 
 \section{Conclusiones}
-
+\label{vias}
 Tras la realización práctica hemos concluido que se pueden generar sistemas de recomendación bastante fiables basados en usuario siempre y cuando se disponga de un buen número de valoraciones por parte de otros usuarios, es decir, la potencia de un sistema de recomendación basado en filtrado colaborativo, reside en la \textbf{actividad} que los demás usuarios tengan en el sistema, si estos no son activos o el sistema acaba de comenzar su actividad, deberemos definir otras estrategias para complementar el filtrado colaborativo. Esto, junto con el afinamiento de las predicciones basados cuan parecidos sean fisicamente (edad, sexo, localización geográfica) dos usuarios pueden ser dos vías futuras de estudio y ampliación del sistema muy interesantes. 
 
 \clearpage
