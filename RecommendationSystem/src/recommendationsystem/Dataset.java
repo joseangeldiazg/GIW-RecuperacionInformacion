@@ -323,17 +323,16 @@ public final class Dataset
     {
         float u_avg, denominador=0, sumatoria_v=0, sumatoria_u=0;
         u_avg=calculaMediaParam(evaluationsU);
+        Map<Integer, Integer> interseccion = new HashMap(evaluationsU);
         
-        SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
+        interseccion.keySet().retainAll(evaluationsV.keySet());
         
-        
-        //Comprobar solo las que tienen en comun c con u -> HACER
+        SortedSet<Integer> keys = new TreeSet<Integer>(interseccion.keySet());
         
         for(Integer i : keys)
-        {
-            sumatoria_u+=((evaluationsU.get(i)-u_avg)*(evaluationsU.get(i)-u_avg));
-            
-            sumatoria_v+=((evaluationsV.get(i)-v_avg)*(evaluationsV.get(i)-v_avg)); 
+        {          
+            sumatoria_u+=Math.pow(evaluationsU.get(i)-u_avg,2);
+            sumatoria_v+=Math.pow(evaluationsV.get(i)-v_avg,2);
         }
         
         denominador = (float) (sqrt(sumatoria_u)*sqrt(sumatoria_v));
@@ -346,10 +345,12 @@ public final class Dataset
         float u_avg, numerador=0;
         u_avg=calculaMediaParam(evaluationsU);
         
-        //Ordenamos los maps para asegurarnos que estan el el mismo orden
-        SortedSet<Integer> keys = new TreeSet<Integer>(evaluationsU.keySet());
         
-        //Comprobar solo las que tienen en comun c con u -> HACER
+        Map<Integer, Integer> interseccion = new HashMap(evaluationsU);
+        
+        interseccion.keySet().retainAll(evaluationsV.keySet());
+        
+        SortedSet<Integer> keys = new TreeSet<Integer>(interseccion.keySet());
         
         for(Integer i : keys)
         {
