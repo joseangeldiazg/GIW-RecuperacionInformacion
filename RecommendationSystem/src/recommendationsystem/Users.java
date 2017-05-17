@@ -1,13 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package recommendationsystem;
 
 /**
- *
+ * Clase para definir y mantener los 
+ * usuarios y sus datos asociados. 
+ * 
+ * 
  * @author joseadiazg
+ * @version 1.0
+ * @since 2017-05-17
  */
 public class Users {
     
@@ -57,8 +58,5 @@ public class Users {
     @Override
     public String toString() {
         return "Usuarios{" + "user_id=" + user_id + ", sex=" + sex + ", age=" + age + ", avg_rating=" + avg_rating + '}';
-    }
-
-    
-    
+    } 
 }

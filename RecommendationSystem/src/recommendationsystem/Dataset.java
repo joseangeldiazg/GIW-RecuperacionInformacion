@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package recommendationsystem;
 
 import java.io.BufferedReader;
@@ -22,8 +18,15 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- *
+ * Esta clase implementa todos los métodos necesarios para
+ * la carga de los datos de entrada en las estructuras 
+ * apropiadas. También obtiene el vecindario y predice
+ * las películas que podrían gustarle al usuario. 
+ * 
+ * 
  * @author joseadiazg
+ * @version 1.0
+ * @since 2017-05-17
  */
 public final class Dataset 
 {
@@ -48,6 +51,14 @@ public final class Dataset
         return movies;
     }
     
+    /**
+     * El método se encarga de cargar los datos en las estructuas. 
+     * 
+     * @param moviesFile fichero con las peliculas.
+     * @param usersFile fichero con los datos de los usuarios. 
+     * @param ratingsFile fichero con los ratings. 
+     */
+    
     public void loadDataset(String moviesFile, String usersFile, String ratingsFile) throws IOException
     {
         this.loadMovies(moviesFile);
@@ -55,6 +66,13 @@ public final class Dataset
         this.loadRatings(ratingsFile);
         
     }
+    
+    
+    /**
+     * El método se encarga de cargar las películas. 
+     * 
+     * @param moviesFile fichero con las peliculas.
+     */
     
     public void loadMovies(String moviesFile) throws IOException
     {
@@ -89,6 +107,11 @@ public final class Dataset
         }
     }
         
+     /**
+     * El método se encarga de cargar  los usuarios. 
+     * 
+     * @param usersFile fichero con los datos de usuarios.
+     */
     
     public void loadUsers(String usersFile)
     {
@@ -123,6 +146,13 @@ public final class Dataset
         
     }
     
+     /**
+     * El método se encarga de cargar  los ratings. 
+     * 
+     * @param ratingsFile fichero con los ratings.
+     */
+    
+    
     public void loadRatings(String ratingsFile)
     {
         File archivo = null;
@@ -155,6 +185,16 @@ public final class Dataset
         }
     }
     
+    /**
+     * Una vez cargado los ratings, añade para cada usuario 
+     * un las películas que ve y su rating, de la siguiente forma:
+     * 
+     * IdUsuario[[IdPeliculaX, RatingPeliculaX],
+     *           [IdPeliculaX, RatingPeliculaX],...]
+     * 
+     * Finalmente calcula la media de ratings para cada usuario.
+     */
+    
     public void loadUserRatings()
     {
         for(Ratings rating : ratings)
@@ -176,6 +216,10 @@ public final class Dataset
         calculaMedia();
     }
     
+    /**
+     *Calcula la media de ratings dados por todos los usuarios. 
+     */
+    
     public void calculaMedia()
     {
         for (Users user : users)
@@ -195,6 +239,10 @@ public final class Dataset
         }
     }
     
+    /**
+     *Calcula la media de ratings dados por un usuario en concreto. 
+     */
+    
     public float calculaMediaParam(Map<Integer,Integer> userRating)
     {
         float sum=0.0f;
@@ -208,6 +256,19 @@ public final class Dataset
         
         return avg;
     }
+    
+    
+    /**
+     *Obtiene el valor V, es decir, una estructura con los usuarios
+     * que comparten alguna similitud con el usuario objetivo.
+     * 
+     * Para concluir que comparten alguna similitud basta con que hayan
+     * visto alguna película similar. 
+     * 
+     * @param evaluations Evaluaciones dadas por el usuario objetivo. 
+     * @return Map con los usuarios que han visto alguna película similar,
+     * la película y el rating dado a esta. 
+     */
     
     public Map<Integer,Map<Integer,Integer>> getV(Map<Integer, Integer> evaluations)
     {
@@ -239,6 +300,16 @@ public final class Dataset
         } 
         return equal;
     }
+    
+    /**
+     * Cálculo del vecindario con los k vecinos más similares al usuario 
+     * objetivo. 
+     * 
+     * @param evaluations Evaluaciones dadas por el usuario objetivo. 
+     * @param k número de vecinos a tener en cuenta. 
+     * 
+     * @return Map con el id de usuario vecino y su valor de similitud.
+     */
     
     public Map<Integer,Float> vecindario(Map<Integer, Integer> evaluations, int k)
     {
@@ -273,6 +344,15 @@ public final class Dataset
         return salida;
     }
     
+    
+    /**
+     * Prediccion de las peliculas a recomendar.  
+     * 
+     * @param evaluationsU Evaluaciones dadas por el usuario objetivo. 
+     * @param vecindario K vecinos más cercanos. 
+     * 
+     * @return ArrayList de integer con los id de las películas a recomendar. 
+     */
     
     public ArrayList<Integer> recomendaciones(Map<Integer, Integer> evaluationsU, 
             Map<Integer,Float> vecindario)
@@ -319,6 +399,16 @@ public final class Dataset
         return recomendaciones;
     }
     
+     /**
+     * Obtiene el denominador de la correlación Pearson.  
+     * 
+     * @param evaluationsU Evaluaciones dadas por el usuario objetivo. 
+     * @param evaluationsV Evaluaciones dadas uno de los vecinos. 
+     * @param v_avg media de ratings del usuario vecino. 
+     * 
+     * @return denominador para la correlación Pearson. 
+     */
+    
     public float calcDenominador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
         float u_avg, denominador=0, sumatoria_v=0, sumatoria_u=0;
@@ -340,6 +430,16 @@ public final class Dataset
         return denominador; 
     }
     
+    /**
+     * Obtiene el numerador de la correlación Pearson.  
+     * 
+     * @param evaluationsU Evaluaciones dadas por el usuario objetivo. 
+     * @param evaluationsV Evaluaciones dadas uno de los vecinos. 
+     * @param v_avg media de ratings del usuario vecino. 
+     * 
+     * @return numerador para la correlación Pearson. 
+     */
+    
     public float calcNumerador(Map<Integer, Integer> evaluationsU, Map<Integer, Integer> evaluationsV, float v_avg)
     {
         float u_avg, numerador=0;
@@ -358,6 +458,14 @@ public final class Dataset
         }   
         return numerador;  
     }
+    
+    /**
+     * Ordena un Map por value.  
+     * 
+     * @param passedMap Map a ordenar. 
+     * 
+     * @return map ordenado por valor. 
+     */
     
     public LinkedHashMap<Integer, Float> sortHashMapByValues(Map<Integer, Float> passedMap) 
     {
@@ -388,6 +496,15 @@ public final class Dataset
         return sortedMap;
     }
     
+    
+    /**
+     * Obtiene el título de una película. 
+     * 
+     * @param id_movie Id de la película a obtener. 
+     * 
+     * @return Titulo de la película. 
+     */
+    
     public String findMovie(int id_movie)
     {
         String title=null;
@@ -400,6 +517,14 @@ public final class Dataset
         }
         return title;
     }
+    
+    /**
+     * Obtiene la media de ratings de un usuario.
+     * 
+     * @param user_id Id del usuario a obtener la media. 
+     * 
+     * @return media de ratings de un usuario en concreto. 
+     */
     
     public float getAvg(int user_id)
     {
