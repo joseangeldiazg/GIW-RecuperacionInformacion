@@ -1,0 +1,82 @@
+%---------------------------------------------------
+% Nombre: capitulo1.tex  
+% 
+% Texto del capitulo 1
+%---------------------------------------------------
+
+\chapter{Desarrollo práctico}
+
+La cuarta práctica de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recomendación basado en filtrado colaborativo para el \textit{dataset} \textbf{MovieLens} \cite{movielens}. El sistema en concreto estará basado en usuario, lo que conlleva que las decisiones o recomendaciones estarán basadas en la experiencia previa de otros usuarios similares en el sistema. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista. 
+
+\begin{enumerate}
+	\item Entender el proceso de recomendación basado en filtrado colaborativo.
+	\item Ser capaz de plasmarlo en un programa de ordenador.
+\end{enumerate}
+
+\section{Lógica del sistema}
+
+El sistema en última instancia se comportará de la siguiente manera:
+
+\begin{enumerate}
+	\item Mostrará 20 películas aleatorias al usuario. Este tendrá que valorarlas de 1 a 5 siendo 1 la menor puntuación y 5 la máxima.
+	\item En base a estas valoraciones dadas por el usuario objetivo, el sistema obtendrá el grupo de usuarios \textbf{K} que más similitud tiene con el usuario.
+	\item Una vez obtenido el vecindario se procederá a recomendar las películas vistas por sus \textbf{k vecinos} más cercanos y que el usuario no haya visto, siempre y cuando la predicción de valoración sea 4 o más estrellas. 
+	
+\end{enumerate}
+
+
+\section{Requisitos del sistema}
+
+En esta sección se realiza un pequeño análisis de requisitos funcionales y no funcionales que el sistema deberá cumplir.
+
+\subsection{Requisitos Funcionales}
+\label{funcionales}
+
+\begin{itemize}
+
+\item \textbf{RF1}: El sistema permitirá la realización de búsquedas por texto de las noticias.
+
+\item \textbf{RF2}: El sistema permitirá buscar noticias por rango de fechas.
+
+\item \textbf{RF3}: Los resultados se mostraran en una caja de texto con un formato correcto para que el usuario final pueda entenderlos perfectamente.
+
+\item \textbf{RF4}: La caja de texto pasará a verde cuando la consulta ofrezca resultados. 
+
+\item \textbf{RF5}: Se podrá abortar la aplicación por medio de un botón salir.
+
+\end{itemize}
+
+\subsection{Requisitos No Funcionales}
+
+\begin{itemize}
+
+\item \textbf{RNF1}: La aplicación de indexación deberá llevar a cabo la indexación en un tiempo aceptable..
+
+\item \textbf{RNF2}: La aplicación de indexación creara el indice en un directorio relativo dentro de su misma ubicación para permitir así a la aplicación de búsqueda obtener acceso a esta sin problemas..
+
+\end{itemize}
+
+\section{Diseño de la solución}
+
+
+
+\begin{lstlisting}
+	java -jar searcher.jar 
+\end{lstlisting}
+
+Tras esto podremos ver la interfaz de búsqueda que podemos ver en la  imagen \ref{entrada}:
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.5]{./Capitulo1/Imagenes/interfaz.png}
+		\caption{Interfaz del sistema de búsqueda.}
+	\label{entrada}
+\end{figure}
+
+
+\section{Conclusiones}
+
+Tras la realización de la practica hemos podido constatar de la potencia de Lucene para la realización de aplicaciones de diverso tipo. También es destacable la facilidad de uso al menos de las nociones básicas y la cantidad de documentación que podemos obtener de la comunidad en internet.
+
+\clearpage
+%---------------------------------------------------
