@@ -6,12 +6,16 @@
 
 \chapter{Desarrollo práctico}
 
-La cuarta práctica de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recomendación basado en filtrado colaborativo para el \textit{dataset} \textbf{MovieLens} \cite{movielens}. El sistema en concreto estará basado en usuario, lo que conlleva que las decisiones o recomendaciones estarán basadas en la experiencia previa de otros usuarios similares en el sistema. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista. 
+La cuarta práctica de la asignatura Gestión de Información en la Web (GIW), se centra en el desarrollo de un sistema de recomendación basado en filtrado colaborativo para el \textit{dataset} \textbf{MovieLens} \cite{movielens}. El sistema en concreto estará basado en usuario, lo que conlleva que las decisiones o recomendaciones estarán basadas en la experiencia previa de otros usuarios similares en el sistema. Concretamente, los objetivos de la práctica y los cuales iremos solventando o concluyendo en las siguientes secciones son los que podemos encontrar en la siguiente lista:
 
 \begin{enumerate}
 	\item Entender el proceso de recomendación basado en filtrado colaborativo.
 	\item Ser capaz de plasmarlo en un programa de ordenador.
 \end{enumerate}
+
+\section{Materiales y referencias}
+
+El sistema ha sido elaborado siguiendo las especificaciones para el calculo de la similitud y predicción de las valoraciones visto en las transparencias de clase \cite{transparencias}. Dado que ha sido desarrollado usando el lenguaje \textbf{java}, otra de las referencias usadas ha sido la documentación del lenguaje \cite{java}, sobre todo, en lo que a estructuras de datos respecta. El IDE usado para el desarrollo ha sido \textbf{NetBeans} y el control de versiones ha sido llevado a cabo con GitHub, plataforma en la cual está ubicado el repositorio de esta práctica \cite{repo}.
 
 \section{Lógica del sistema}
 
@@ -24,7 +28,6 @@ El sistema en última instancia se comportará de la siguiente manera:
 	
 \end{enumerate}
 
-
 \section{Requisitos del sistema}
 
 En esta sección se realiza un pequeño análisis de requisitos funcionales y no funcionales que el sistema deberá cumplir.
@@ -34,15 +37,11 @@ En esta sección se realiza un pequeño análisis de requisitos funcionales y no fu
 
 \begin{itemize}
 
-\item \textbf{RF1}: El sistema permitirá la realización de búsquedas por texto de las noticias.
+\item \textbf{RF1}: El sistema recomendará películas al usuario final en función de sus gustos.
 
-\item \textbf{RF2}: El sistema permitirá buscar noticias por rango de fechas.
+\item \textbf{RF2}: El sistema permitirá al usuario valorar según su criterio las distintas películas para favorecer que la predicción posterior tenga mayor certeza.
 
-\item \textbf{RF3}: Los resultados se mostraran en una caja de texto con un formato correcto para que el usuario final pueda entenderlos perfectamente.
-
-\item \textbf{RF4}: La caja de texto pasará a verde cuando la consulta ofrezca resultados. 
-
-\item \textbf{RF5}: Se podrá abortar la aplicación por medio de un botón salir.
+\item \textbf{RF3}: Los resultados se mostrarán debidamente formateados por terminal.
 
 \end{itemize}
 
@@ -50,15 +49,12 @@ En esta sección se realiza un pequeño análisis de requisitos funcionales y no fu
 
 \begin{itemize}
 
-\item \textbf{RNF1}: La aplicación de indexación deberá llevar a cabo la indexación en un tiempo aceptable..
+\item \textbf{RNF1}:  La aplicación de recomendación deberá ofrecer resultados en un tiempo aceptable. 
 
-\item \textbf{RNF2}: La aplicación de indexación creara el indice en un directorio relativo dentro de su misma ubicación para permitir así a la aplicación de búsqueda obtener acceso a esta sin problemas..
-
+\item \textbf{RNF2}:  Las recomendaciones dadas por el sistema deberán se de una calidad aceptable. 
 \end{itemize}
 
 \section{Diseño de la solución}
-
-
 
 \begin{lstlisting}
 	java -jar searcher.jar 
@@ -73,10 +69,9 @@ Tras esto podremos ver la interfaz de búsqueda que podemos ver en la  imagen \re
 	\label{entrada}
 \end{figure}
 
-
 \section{Conclusiones}
 
-Tras la realización de la practica hemos podido constatar de la potencia de Lucene para la realización de aplicaciones de diverso tipo. También es destacable la facilidad de uso al menos de las nociones básicas y la cantidad de documentación que podemos obtener de la comunidad en internet.
+Tras la realización práctica hemos concluido que se pueden generar sistemas de recomendación bastante fiables basados en usuario siempre y cuando se disponga de un buen número de valoraciones por parte de otros usuarios, es decir, la potencia de un sistema de recomendación basado en filtrado colaborativo, reside en la \textbf{actividad} que los demás usuarios tengan en el sistema, si estos no son activos o el sistema acaba de comenzar su actividad, deberemos definir otras estrategias para complementar el filtrado colaborativo. Esto, junto con el afinamiento de las predicciones basados cuan parecidos sean fisicamente (edad, sexo, localización geográfica) dos usuarios pueden ser dos vías futuras de estudio y ampliación del sistema muy interesantes. 
 
 \clearpage
 %---------------------------------------------------
