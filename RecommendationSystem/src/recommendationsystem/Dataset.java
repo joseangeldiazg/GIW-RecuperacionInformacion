@@ -363,6 +363,8 @@ public final class Dataset
         float u_avg, v_avg, r_v_i, r_u_i;
         u_avg=calculaMediaParam(evaluationsU);
         
+        
+        //Iteramos por todas las peliculas en el dataset
         for(Movies movie : movies)
         {
             sumatorio_sim=0;
@@ -415,6 +417,9 @@ public final class Dataset
         u_avg=calculaMediaParam(evaluationsU);
         Map<Integer, Integer> interseccion = new HashMap(evaluationsU);
         
+        //Calculamos la intersección para no tener que comprobar si estamos 
+        //ante la misma película en ambos map continuamente.
+        
         interseccion.keySet().retainAll(evaluationsV.keySet());
         
         SortedSet<Integer> keys = new TreeSet<Integer>(interseccion.keySet());
@@ -447,6 +452,9 @@ public final class Dataset
         
         
         Map<Integer, Integer> interseccion = new HashMap(evaluationsU);
+        
+        //Calculamos la intersección para no tener que comprobar si estamos 
+        //ante la misma película en ambos map continuamente.
         
         interseccion.keySet().retainAll(evaluationsV.keySet());
         

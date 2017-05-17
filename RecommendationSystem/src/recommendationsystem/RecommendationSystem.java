@@ -24,7 +24,7 @@ public class RecommendationSystem {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
         
-        final int K = 7;
+        final int K = 10;
         final int VALORACIONES = 20;
         
         String moviesFile = "ml-data/u.item";
