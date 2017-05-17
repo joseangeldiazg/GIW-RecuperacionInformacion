@@ -56,17 +56,30 @@ En esta sección se realiza un pequeño análisis de requisitos funcionales y no fu
 
 \section{Diseño de la solución}
 
+\section{Manual de uso}
+
+El uso del sistema es muy sencillo deberemos ejecutar el archivo \textbf{.jar} ubicado en la carpeta \textbf{ejecutable} de la siguiente manera:
+
 \begin{lstlisting}
-	java -jar searcher.jar 
+	java -jar RecommendationSystem.jar 
 \end{lstlisting}
 
-Tras esto podremos ver la interfaz de búsqueda que podemos ver en la  imagen \ref{entrada}:
+Tras este paso el sistema nos ofrecerá 20 películas de la base de datos para valorar según nuestros gustos. Deberemos ir introduciendo valoraciones de 1 a 5 tal y como vemos en la figura \ref{fig1}.
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[scale=0.5]{./Capitulo1/Imagenes/interfaz.png}
-		\caption{Interfaz del sistema de búsqueda.}
-	\label{entrada}
+		\includegraphics[scale=0.5]{./Capitulo1/Imagenes/fig1.png}
+		\caption{Proceso de valoración del usuario.}
+	\label{fig1}
+\end{figure}
+
+Una vez valoradas las 20 películas que el sistema nos muestra, este realizará un rápido cálculo de las películas que se asemejarán a nuestros gustos y nos ofrecerá como salida algo similar a lo que podremos encontrar en la figura \ref{fig2}.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.5]{./Capitulo1/Imagenes/fig2.png}
+		\caption{Salida de las recomendaciones.}
+	\label{fig2}
 \end{figure}
 
 \section{Conclusiones}
